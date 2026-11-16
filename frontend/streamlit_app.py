@@ -80,6 +80,16 @@ elif page == "AI Chat":
     except requests.RequestException:
         st.caption("Conversation history is temporarily unavailable.")
 
+    active_conversation = st.session_state.get("conversation_id")
+    if active_conversation:
+        try:
+            previous = api_get(f"/conversations/{active_conversation}/messages").json().get("messages", [])
+            for message in previous:
+                with st.chat_message(message["role"]):
+                    st.markdown(message["content"])
+        except requests.RequestException as exc:
+            st.warning(f"Could not load previous messages: {exc}")
+
     question = st.text_area("Your question", placeholder="What are the main findings in these papers?")
     if st.button("Ask ResearchFlow", type="primary", disabled=not question.strip()):
         with st.spinner("Running LangGraph research workflow..."):

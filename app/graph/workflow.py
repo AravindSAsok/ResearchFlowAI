@@ -13,6 +13,7 @@ class ResearchState(TypedDict, total=False):
     sufficient: bool
     retry_count: int
     workflow_steps: list[str]
+    history: list[dict]
 
 def build_research_graph(llm, retriever):
     """Build a real LangGraph workflow. Dependencies are injected for easy testing."""
@@ -53,10 +54,16 @@ def build_research_graph(llm, retriever):
                 "workflow_steps": state.get("workflow_steps", []) + ["context_recheck"]}
 
     def generate_answer(state: ResearchState):
+        history = state.get("history", [])[-8:]
+        history_text = "\n".join(
+            f"{item.get('role', 'user')}: {item.get('content', '')}" for item in history
+        )
         prompt = (
             "You are ResearchFlow AI. Answer ONLY from the supplied document context. "
-            "If the context does not support a claim, say so. Do not invent sources. "
-            "Use concise, clear language.\n\n"
+            "Use earlier conversation only to understand references and follow-up intent; "
+            "document evidence must support factual claims. If the context does not support a claim, "
+            "say so. Do not invent sources. Use concise, clear language.\n\n"
+            f"EARLIER CONVERSATION:\n{history_text or 'No earlier messages.'}\n\n"
             f"QUESTION:\n{state['question']}\n\nDOCUMENT CONTEXT:\n{state['context']}"
         )
         response = llm.invoke(prompt)

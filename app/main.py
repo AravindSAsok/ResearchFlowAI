@@ -94,8 +94,14 @@ def delete_document(document_id: str):
 def chat(request: ChatRequest):
     if not has_indexed_documents():
         raise HTTPException(status_code=400, detail="Upload a PDF before asking questions.")
+    history = []
+    if request.conversation_id is not None:
+        existing = next((item for item in list_conversations() if item["id"] == request.conversation_id), None)
+        if existing is None:
+            raise HTTPException(status_code=404, detail="Conversation not found.")
+        history = get_messages(request.conversation_id)[-8:]
     try:
-        result = run_question(request.question)
+        result = run_question(request.question, history=history)
     except RuntimeError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except Exception as exc:

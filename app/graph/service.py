@@ -3,8 +3,13 @@ from app.graph.workflow import build_research_graph
 from app.ingestion.vector_store import get_vector_store
 from app.core.config import RETRIEVAL_TOP_K
 
-def run_question(question: str):
+def run_question(question: str, history: list[dict] | None = None):
     vector_store = get_vector_store()
     retriever = vector_store.as_retriever(search_kwargs={"k": RETRIEVAL_TOP_K})
     graph = build_research_graph(get_chat_model(), retriever)
-    return graph.invoke({"question": question, "retry_count": 0, "workflow_steps": []})
+    return graph.invoke({
+        "question": question,
+        "retry_count": 0,
+        "workflow_steps": [],
+        "history": history or [],
+    })

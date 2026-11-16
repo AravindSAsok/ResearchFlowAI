@@ -10,7 +10,7 @@ ResearchFlow AI is a document-grounded research assistant built with Python, Lan
 - LangGraph workflow: query analysis -> retrieval -> evidence evaluation -> one retry when needed -> answer generation -> answer review.
 - Source metadata and page-level references in answers.
 - Multi-question research mode: decomposes a broad question, gathers evidence for each sub-question and synthesizes findings, contradictions, limitations and open questions.
-- SQLite conversation and message history, including selecting an earlier conversation in the UI.
+- SQLite conversation and message history, including selecting an earlier conversation and passing recent messages into follow-up prompts.
 - Streamlit dashboard, document library, AI chat, research workspace and workflow trace.
 - Automated tests using mocked LLM/retriever dependencies where appropriate.
 

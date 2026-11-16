@@ -10,24 +10,26 @@ Updated: 2026-11-16
 - [x] Persistent Chroma vector storage with local ONNX embeddings
 - [x] LangChain retrieval and OpenRouter ChatOpenAI integration
 - [x] LangGraph StateGraph with query analysis, retrieval, evidence evaluation, one retry, answer generation and review
-- [x] Multi-question research decomposition and synthesis
+- [x] Multi-question research decomposition and evidence synthesis
 - [x] SQLite conversation and message persistence
+- [x] Conversation-aware follow-up questions using the previous eight messages
 - [x] Streamlit dashboard, document library, chat, research workspace and workflow trace
-- [x] Conversation selection and continuation in the chat UI
+- [x] Conversation selection and history rendering in the chat UI
 - [x] README, Mermaid architecture diagram and developer documentation
 - [x] Sample PDF fixture and reproducible fixture generator
+- [x] Local Git repository initialized and first commit created
 
 ## Verification completed
 - [x] Dependencies installed successfully on Python 3.14
 - [x] Python compileall check passed
-- [x] Pytest: 8 passed
+- [x] Pytest: 9 passed
 - [x] FastAPI health endpoint returned HTTP 200
 - [x] Streamlit frontend returned HTTP 200
 - [x] Local ONNX embedding smoke test passed (384-dimensional vector)
-- [x] Sample PDF extraction and chunk metadata verified
+- [x] Sample PDF extraction and page metadata verified
 - [x] PDF upload/index API returned HTTP 200 and one chunk indexed
 - [x] Chroma semantic retrieval returned the indexed sample document
-- [x] Chat correctly returns HTTP 503 when the OpenRouter key is not configured
+- [x] Chat correctly returns HTTP 503 when OpenRouter key is not configured
 
 ## Pending / requires user input
 - [ ] Add OPENROUTER_API_KEY to local .env
@@ -36,9 +38,9 @@ Updated: 2026-11-16
 - [ ] Confirm GitHub repository name/URL before creating a remote or pushing
 
 ## Known limitations
-- Research mode searches only the local PDF knowledge base; no external web search provider is configured.
+- Research mode searches only PDFs indexed in the local knowledge base; no external web search provider is configured.
 - The answer reviewer currently applies deterministic output/source checks, not a separate LLM-based factuality judge.
 - Authentication, multi-user isolation and production deployment hardening are not included in this local MVP.
 
 ## Next
-Configure the API key, run live chat/research tests, inspect the UI, then prepare a clean local Git commit and confirm the GitHub destination.
+Configure the API key, run live chat/research tests, inspect the UI, then prepare a GitHub remote after the destination is confirmed.
