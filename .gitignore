@@ -11,4 +11,5 @@ data/uploads/*
 data/chroma/*
 !data/chroma/.gitkeep
 data/researchflow.db
+data/*.log
 .DS_Store

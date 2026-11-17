@@ -1,9 +1,9 @@
 from app.graph.llm import get_chat_model
 from app.graph.service import run_question
 
-def run_research(question: str):
+def run_research(question: str, model_id: str | None = None):
     """Decompose a broad question, gather evidence for each part, then synthesize."""
-    llm = get_chat_model()
+    llm = get_chat_model(model_id)
     decomposition_prompt = (
         "Break this research question into 3 focused, non-overlapping questions. "
         "Return only the questions, one per line, without numbering or commentary.\n\n"
@@ -20,7 +20,7 @@ def run_research(question: str):
     all_sources = []
     steps = ["research_decomposer"]
     for index, subquestion in enumerate(subquestions, start=1):
-        result = run_question(subquestion)
+        result = run_question(subquestion, model_id=model_id)
         findings.append(f"Research question {index}: {subquestion}\nFinding: {result.get('answer', '')}")
         all_sources.extend(result.get("sources", []))
         steps.extend(result.get("workflow_steps", []))

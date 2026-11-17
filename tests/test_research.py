@@ -15,8 +15,8 @@ class FakeLLM:
 
 def test_research_decomposes_and_synthesizes(monkeypatch):
     fake_llm = FakeLLM()
-    monkeypatch.setattr(research_module, "get_chat_model", lambda: fake_llm)
-    monkeypatch.setattr(research_module, "run_question", lambda q: {
+    monkeypatch.setattr(research_module, "get_chat_model", lambda model_id=None: fake_llm)
+    monkeypatch.setattr(research_module, "run_question", lambda q, model_id=None: {
         "answer": f"Evidence for: {q}",
         "sources": [{"source": "guide.pdf", "page": 1}],
         "workflow_steps": ["retrieve", "answer"],
